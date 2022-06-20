@@ -16,18 +16,19 @@ import java.util.ArrayList;
 
 public class Game extends JPanel {
     private Anna anna;
-    private ArrayList<Drawable> drawables;
+    private Drawable[] drawables;
     private ArrayList<Object> objects;
     private ArrayList<Object> interactables;
     private Levels levels;
     public static Level current_level;
     public static int current_level_index;
     private Indigo indigo;
+    private GUI gui;
 
     public Game(){
         setFocusable(true);
 
-        drawables = new ArrayList<>();
+        drawables = new Drawable[4];
         objects = new ArrayList<>();
         interactables = new ArrayList<>();
 
@@ -37,10 +38,13 @@ public class Game extends JPanel {
 
         anna = new Anna(current_level.getStartingPos());
         addKeyListener(anna);
-        drawables.add(anna);
+        drawables[1] = anna;
 
         indigo = new Indigo(anna, current_level.getIndigoStartingPos());
-        drawables.add(indigo);
+        drawables[2] = indigo;
+
+        gui = new GUI(anna);
+        drawables[3] = gui;
 
         update.start();
     }
@@ -78,7 +82,6 @@ public class Game extends JPanel {
 
     public void changeLevel(int indexChange, boolean forward){
         current_level_index += indexChange;
-        drawables.remove(current_level);
 
         for(Tile t : current_level.getTiles()){
             objects.remove(t);
@@ -99,7 +102,7 @@ public class Game extends JPanel {
 
     public void reloadLevel(){
         current_level = levels.getLevel(current_level_index);
-        drawables.add(current_level);
+        drawables[0] = current_level;
 
         for(Tile t : current_level.getTiles()){
             objects.add(t);

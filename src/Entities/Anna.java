@@ -11,12 +11,16 @@ public class Anna extends Entity implements KeyListener {
 
     public static int WIDTH = 32, HEIGHT = 32;
 
+    private int startingHealth, health;
+
     public Anna(Point startingPos){
         super(startingPos, WIDTH, HEIGHT,2, 4, EAST, null, "anna");
         move_east = false;
         move_west = false;
         can_move_east = true;
         can_move_west = true;
+        startingHealth = 100;
+        health = startingHealth;
     }
 
     @Override
@@ -108,5 +112,13 @@ public class Anna extends Entity implements KeyListener {
             move_east = false;
             stopMoving();
         }
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
+    public int getStartingHealth(){
+        return startingHealth;
     }
 }
