@@ -1,5 +1,7 @@
 package Entities;
 
+import Client.Images;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -64,7 +66,12 @@ public class Anna extends Entity implements KeyListener {
     @Override
     public void draw(Graphics2D g2){
         move();
-        super.draw(g2);
+
+        if(getDir() == EAST) {
+            g2.drawImage(Images.list.get("anna_east"), null, getPos().x, getPos().y);
+        } else {
+            g2.drawImage(Images.list.get("anna_west"), null, getPos().x, getPos().y);
+        }
     }
 
     public void stopMoving(){
