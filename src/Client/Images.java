@@ -12,7 +12,12 @@ public class Images {
         list = new HashMap<>();
         String[] loader = {
                 "anna_east",
-                "anna_west"
+                "anna_west",
+                "indigo_east",
+                "indigo_west",
+                "grass",
+                "rock",
+                "sky"
         };
 
         for (String s : loader) {

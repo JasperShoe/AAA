@@ -1,8 +1,10 @@
 package Entities;
 
+import Client.Images;
 import World.Object;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Entity extends Object {
     public static final int EAST = 1, WEST = -1;
@@ -15,9 +17,10 @@ public class Entity extends Object {
     private int falling_speed, max_falling_speed;
     private int jump_speed, jump_speed_max;
     private boolean jumping;
+    private String img_name;
 
-    public Entity(Point pos, int WIDTH, int HEIGHT, int start_speed, int max_speed, int dir, Color color){
-        super(pos, WIDTH, HEIGHT, color);
+    public Entity(Point pos, int WIDTH, int HEIGHT, int start_speed, int max_speed, int dir, BufferedImage img, String img_name){
+        super(pos, WIDTH, HEIGHT, img);
         this.start_speed = start_speed;
         this.max_speed = max_speed;
         this.dir = dir;
@@ -30,6 +33,7 @@ public class Entity extends Object {
         jumping = false;
         jump_speed_max = 12;
         jump_speed = jump_speed_max;
+        this.img_name = img_name;
     }
 
     public void jump(){
@@ -49,13 +53,38 @@ public class Entity extends Object {
         vy = falling_speed;
     }
 
+    public void jumpOrFall(){
+        if(isCollisionDown()) {
+            setFalling(false);
+            setVy(0);
+            setFalling_speed(0);
+        }
+
+        if(isJumping()){
+            jump();
+        }
+
+        if(!isCollisionDown() && !isJumping()){
+            setFalling(true);
+            fall();
+        }
+    }
+
     public void move(){
         setPos(new Point(getPos().x + vx, getPos().y + vy));
     }
 
     @Override
     public void draw(Graphics2D g2){
-        super.draw(g2);
+        if(img_name != null) {
+            if (getDir() == EAST) {
+                g2.drawImage(Images.list.get(img_name + "_east"), null, getPos().x, getPos().y);
+            } else {
+                g2.drawImage(Images.list.get(img_name + "_west"), null, getPos().x, getPos().y);
+            }
+        } else {
+            super.draw(g2);
+        }
     }
 
     public void changeDirection(){
@@ -115,8 +144,10 @@ public class Entity extends Object {
     }
 
     public void doJump() {
-        jump_speed = jump_speed_max;
-        this.jumping = true;
+        if(isCollisionDown() && !jumping) {
+            jump_speed = jump_speed_max;
+            jumping = true;
+        }
     }
 
     public void setDir(int dir){
@@ -126,5 +157,13 @@ public class Entity extends Object {
     public void resetJump(){
         jumping = false;
         jump_speed = jump_speed_max;
+    }
+
+    public void reset(){
+        setVx(0);
+        setVy(0);
+        setDir(EAST);
+        resetSpeed();
+        resetJump();
     }
 }

@@ -3,19 +3,20 @@ package World;
 import Entities.Drawable;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Object implements Drawable {
     private Point pos;
     private int WIDTH, HEIGHT;
-    private Color color;
+    private BufferedImage img;
 
     private boolean collision, collision_up, collision_down, collision_left, collision_right;
 
-    public Object(Point pos, int WIDTH, int HEIGHT, Color color){
+    public Object(Point pos, int WIDTH, int HEIGHT, BufferedImage img){
         this.pos = pos;
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
-        this.color = color;
+        this.img = img;
         collision = false;
         collision_up = false;
         collision_down = false;
@@ -25,8 +26,9 @@ public class Object implements Drawable {
 
     @Override
     public void draw(Graphics2D g2){
-        g2.setColor(color);
-        g2.fillRect(pos.x, pos.y, WIDTH, HEIGHT);
+        if(img != null){
+            g2.drawImage(img, null, pos.x, pos.y);
+        }
     }
 
     public void collisionDetection(Object other){
@@ -95,6 +97,14 @@ public class Object implements Drawable {
         this.pos = pos;
     }
 
+    public void setX(int x) {
+        pos = new Point(x, pos.y);
+    }
+
+    public void setY(int y) {
+        pos = new Point(pos.x, y);
+    }
+
     public int getWidth() {
         return WIDTH;
     }
@@ -121,5 +131,9 @@ public class Object implements Drawable {
 
     public boolean isCollisionRight() {
         return collision_right;
+    }
+
+    public BufferedImage getImg(){
+        return img;
     }
 }

@@ -12,41 +12,25 @@ public class Anna extends Entity implements KeyListener {
     public static int WIDTH = 32, HEIGHT = 32;
 
     public Anna(Point startingPos){
-        super(startingPos, WIDTH, HEIGHT,2, 4, EAST, Color.PINK);
+        super(startingPos, WIDTH, HEIGHT,2, 4, EAST, null, "anna");
         move_east = false;
         move_west = false;
         can_move_east = true;
         can_move_west = true;
     }
 
+    @Override
     public void reset(){
-        setVx(0);
-        setVy(0);
+        super.reset();
         move_east = false;
         move_west = false;
         can_move_east = true;
         can_move_west = true;
-        setDir(EAST);
-        resetSpeed();
-        resetJump();
     }
 
     @Override
     public void move() {
-        if(isCollisionDown()) {
-            setFalling(false);
-            setVy(0);
-            setFalling_speed(0);
-        }
-
-        if(isJumping()){
-            jump();
-        }
-
-        if(!isCollisionDown() && !isJumping()){
-            setFalling(true);
-            fall();
-        }
+        jumpOrFall();
 
         if(isCollisionLeft()){
             can_move_west = false;
@@ -67,11 +51,7 @@ public class Anna extends Entity implements KeyListener {
     public void draw(Graphics2D g2){
         move();
 
-        if(getDir() == EAST) {
-            g2.drawImage(Images.list.get("anna_east"), null, getPos().x, getPos().y);
-        } else {
-            g2.drawImage(Images.list.get("anna_west"), null, getPos().x, getPos().y);
-        }
+        super.draw(g2);
     }
 
     public void stopMoving(){

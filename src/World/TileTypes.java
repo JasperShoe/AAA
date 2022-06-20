@@ -1,12 +1,13 @@
 package World;
 
-import java.awt.*;
+import Client.Images;
+
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class TileTypes {
-    public static HashMap<Integer, Color> types = new HashMap<Integer, Color>(){{
-        put(1, new Color(39, 168, 42));
-        put(2, new Color(88, 66, 16));
-        put(3, new Color(92, 92, 92));
+    public static HashMap<Integer, BufferedImage> types = new HashMap<Integer, BufferedImage>(){{
+        put(1, Images.list.get("grass"));
+        put(2, Images.list.get("rock"));
     }};
 }

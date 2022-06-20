@@ -2,6 +2,7 @@ package Client;
 
 import Entities.Anna;
 import Entities.Drawable;
+import Entities.Indigo;
 import World.Level;
 import World.Levels;
 import World.Object;
@@ -18,8 +19,9 @@ public class Game extends JPanel {
     private ArrayList<Drawable> drawables;
     private ArrayList<Object> objects;
     private Levels levels;
-    private Level current_level;
-    private int current_level_index;
+    public static Level current_level;
+    public static int current_level_index;
+    private Indigo indigo;
 
     public Game(){
         setFocusable(true);
@@ -34,10 +36,12 @@ public class Game extends JPanel {
         drawables.add(current_level);
 
         anna = new Anna(current_level.getStartingPos());
-        System.out.println(current_level.getStartingPos());
-
         addKeyListener(anna);
         drawables.add(anna);
+
+        indigo = new Indigo(anna, current_level.getIndigoStartingPos());
+        drawables.add(indigo);
+        objects.add(indigo);
 
         for(Tile t : current_level.getTiles()){
             objects.add(t);
@@ -57,12 +61,13 @@ public class Game extends JPanel {
     public void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(new Color(170, 226, 236));
-        g2.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        g2.drawImage(Images.list.get("sky"), null, 0, 0);
 
         anna.resetCollisions();
+        indigo.resetCollisions();
         for(Object o : objects){
             anna.collisionDetection(o);
+            indigo.collisionDetection(o);
         }
 
         for(Drawable d : drawables){
@@ -88,6 +93,9 @@ public class Game extends JPanel {
 
         anna.setPos(forward ? current_level.getStartingPos() : current_level.getEndingPos());
         anna.reset();
+
+        indigo.setPos(forward ? current_level.getIndigoStartingPos() : new Point(current_level.getEndingPos().x + indigo.getReturnDist(), current_level.getEndingPos().y));
+        indigo.reset();
     }
 
     public void checkNextLevel(){
