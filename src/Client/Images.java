@@ -17,7 +17,8 @@ public class Images {
                 "indigo_west",
                 "grass",
                 "rock",
-                "sky"
+                "sky",
+                "boba"
         };
 
         for (String s : loader) {

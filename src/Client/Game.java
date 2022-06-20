@@ -18,6 +18,7 @@ public class Game extends JPanel {
     private Anna anna;
     private ArrayList<Drawable> drawables;
     private ArrayList<Object> objects;
+    private ArrayList<Object> interactables;
     private Levels levels;
     public static Level current_level;
     public static int current_level_index;
@@ -28,12 +29,11 @@ public class Game extends JPanel {
 
         drawables = new ArrayList<>();
         objects = new ArrayList<>();
-
+        interactables = new ArrayList<>();
 
         levels = new Levels();
         current_level_index = 0;
-        current_level = levels.getLevel(current_level_index);
-        drawables.add(current_level);
+        reloadLevel();
 
         anna = new Anna(current_level.getStartingPos());
         addKeyListener(anna);
@@ -41,11 +41,6 @@ public class Game extends JPanel {
 
         indigo = new Indigo(anna, current_level.getIndigoStartingPos());
         drawables.add(indigo);
-        objects.add(indigo);
-
-        for(Tile t : current_level.getTiles()){
-            objects.add(t);
-        }
 
         update.start();
     }
@@ -70,6 +65,10 @@ public class Game extends JPanel {
             indigo.collisionDetection(o);
         }
 
+        for(Object i : interactables){
+            anna.collisionDetection(i);
+        }
+
         for(Drawable d : drawables){
             d.draw(g2);
         }
@@ -85,17 +84,30 @@ public class Game extends JPanel {
             objects.remove(t);
         }
 
-        current_level = levels.getLevel(current_level_index);
-        drawables.add(current_level);
-        for(Tile t : current_level.getTiles()){
-            objects.add(t);
+        for(Object i : current_level.getInteractables()){
+            objects.remove(i);
         }
+
+        reloadLevel();
 
         anna.setPos(forward ? current_level.getStartingPos() : current_level.getEndingPos());
         anna.reset();
 
         indigo.setPos(forward ? current_level.getIndigoStartingPos() : new Point(current_level.getEndingPos().x + indigo.getReturnDist(), current_level.getEndingPos().y));
         indigo.reset();
+    }
+
+    public void reloadLevel(){
+        current_level = levels.getLevel(current_level_index);
+        drawables.add(current_level);
+
+        for(Tile t : current_level.getTiles()){
+            objects.add(t);
+        }
+
+        for(Object i : current_level.getInteractables()){
+            interactables.add(i);
+        }
     }
 
     public void checkNextLevel(){
