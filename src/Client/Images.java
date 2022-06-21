@@ -18,7 +18,9 @@ public class Images {
                 "grass",
                 "rock",
                 "sky",
-                "boba"
+                "boba",
+                "gorilla_east",
+                "gorilla_west",
         };
 
         for (String s : loader) {

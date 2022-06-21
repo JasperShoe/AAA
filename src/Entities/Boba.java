@@ -26,6 +26,7 @@ public class Boba extends Object {
     public void interact() {
         if(isCollision() && !used){
             used = true;
+            Anna.addHealth(20);
         }
     }
 }

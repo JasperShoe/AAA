@@ -13,7 +13,7 @@ public class Indigo extends Entity {
     private int return_dist;
 
     public Indigo(Anna anna, Point startingPos){
-        super(startingPos, WIDTH, HEIGHT, 3, 5, EAST, null, "indigo");
+        super(startingPos, WIDTH, HEIGHT, 3, 5, WEST, null, "indigo");
         this.anna = anna;
         runaway_dist = 256;
         return_dist = 384;
@@ -25,24 +25,22 @@ public class Indigo extends Entity {
             doJump();
         }
 
-        if(getPos().x < Main.WIDTH) {
+        if(getPos().x <= Main.WIDTH) {
             jumpOrFall();
         } else {
-            setY(Game.current_level.getEndingPos().y - 10);
+            setY(Game.current_level.getEndingPos().y);
         }
 
         if(Math.abs(anna.getPos().x - getPos().x) < runaway_dist){
             if(getDir() != EAST){
                 changeDirection();
             }
-            increaseSpeed();
-            setVx(getSpeed());
+            moveVx(EAST);
         } else if(Math.abs(anna.getPos().x - getPos().x) > return_dist){
             if(getDir() != WEST){
                 changeDirection();
             }
-            increaseSpeed();
-            setVx(-getSpeed());
+            moveVx(WEST);
         } else {
             setVx(0);
             resetSpeed();

@@ -6,13 +6,10 @@ import Entities.Drawable;
 import java.awt.*;
 
 public class GUI implements Drawable {
-    private Anna anna;
-
     private Point healthBarPos;
-    private int healthbarWidth = 200, healthBarHeight = 30;
+    private int healthbarWidth = 250, healthBarHeight = 30;
 
-    public GUI (Anna anna)  {
-        this.anna = anna;
+    public GUI ()  {
         healthBarPos = new Point(20, 700);
     }
 
@@ -21,6 +18,6 @@ public class GUI implements Drawable {
         g2.setColor(Color.RED);
         g2.fillRect(healthBarPos.x, healthBarPos.y, healthbarWidth, healthBarHeight);
         g2.setColor(Color.GREEN);
-        g2.fillRect(healthBarPos.x, healthBarPos.y, (int) (healthbarWidth * (1.0 * anna.getHealth() / anna.getStartingHealth())), healthBarHeight);
+        g2.fillRect(healthBarPos.x, healthBarPos.y, (int) (healthbarWidth * (1.0 * Anna.health / Anna.startingHealth)), healthBarHeight);
     }
 }

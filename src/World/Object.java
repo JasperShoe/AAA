@@ -29,6 +29,9 @@ public class Object implements Drawable {
     public void draw(Graphics2D g2){
         if(img != null){
             g2.drawImage(img, null, pos.x, pos.y);
+        } else {
+            g2.setColor(Color.red);
+            g2.fillRect(pos.x, pos.y, WIDTH, HEIGHT);
         }
     }
 
@@ -45,6 +48,8 @@ public class Object implements Drawable {
             int bottom_edge = pos.y + HEIGHT;
             int left_edge = pos.x;
             int right_edge = pos.x + WIDTH;
+
+            other.collision = false;
 
             // Vertical Collisions
             if (o_right_edge >= left_edge && o_left_edge <= right_edge) {
@@ -156,5 +161,9 @@ public class Object implements Drawable {
 
     public boolean isCollidable(){
         return collidable;
+    }
+
+    public void setCollision(boolean collision){
+        this.collision = collision;
     }
 }

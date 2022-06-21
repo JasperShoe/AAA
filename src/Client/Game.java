@@ -6,19 +6,15 @@ import Entities.Indigo;
 import World.Level;
 import World.Levels;
 import World.Object;
-import World.Tile;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class Game extends JPanel {
     private Anna anna;
     private Drawable[] drawables;
-    private ArrayList<Object> objects;
-    private ArrayList<Object> interactables;
     private Levels levels;
     public static Level current_level;
     public static int current_level_index;
@@ -29,11 +25,9 @@ public class Game extends JPanel {
         setFocusable(true);
 
         drawables = new Drawable[4];
-        objects = new ArrayList<>();
-        interactables = new ArrayList<>();
 
         levels = new Levels();
-        current_level_index = 0;
+        current_level_index = 4;
         reloadLevel();
 
         anna = new Anna(current_level.getStartingPos());
@@ -43,7 +37,7 @@ public class Game extends JPanel {
         indigo = new Indigo(anna, current_level.getIndigoStartingPos());
         drawables[2] = indigo;
 
-        gui = new GUI(anna);
+        gui = new GUI();
         drawables[3] = gui;
 
         update.start();
@@ -64,13 +58,17 @@ public class Game extends JPanel {
 
         anna.resetCollisions();
         indigo.resetCollisions();
-        for(Object o : objects){
+        for(Object o : current_level.getTiles()){
             anna.collisionDetection(o);
             indigo.collisionDetection(o);
         }
 
-        for(Object i : interactables){
+        for(Object i : current_level.getInteractables()){
             anna.collisionDetection(i);
+        }
+
+        for(Object e : current_level.getEntities()){
+            anna.collisionDetection(e);
         }
 
         for(Drawable d : drawables){
@@ -82,14 +80,6 @@ public class Game extends JPanel {
 
     public void changeLevel(int indexChange, boolean forward){
         current_level_index += indexChange;
-
-        for(Tile t : current_level.getTiles()){
-            objects.remove(t);
-        }
-
-        for(Object i : current_level.getInteractables()){
-            objects.remove(i);
-        }
 
         reloadLevel();
 
@@ -103,14 +93,6 @@ public class Game extends JPanel {
     public void reloadLevel(){
         current_level = levels.getLevel(current_level_index);
         drawables[0] = current_level;
-
-        for(Tile t : current_level.getTiles()){
-            objects.add(t);
-        }
-
-        for(Object i : current_level.getInteractables()){
-            interactables.add(i);
-        }
     }
 
     public void checkNextLevel(){

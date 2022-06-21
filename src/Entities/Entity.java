@@ -74,6 +74,11 @@ public class Entity extends Object {
         setPos(new Point(getPos().x + vx, getPos().y + vy));
     }
 
+    public void moveVx(int dir){
+        increaseSpeed();
+        setVx(dir * getSpeed());
+    }
+
     @Override
     public void draw(Graphics2D g2){
         if(img_name != null) {
