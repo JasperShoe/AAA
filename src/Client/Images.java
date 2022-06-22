@@ -11,6 +11,7 @@ public class Images {
     static {
         list = new HashMap<>();
         String[] loader = {
+                "title",
                 "anna_east",
                 "anna_west",
                 "indigo_east",

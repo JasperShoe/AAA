@@ -17,7 +17,7 @@ public class Anna extends Entity implements KeyListener {
     public static int startingHealth, health;
 
     public Anna(Point startingPos){
-        super(startingPos, WIDTH, HEIGHT,2, 4, EAST, null, "anna");
+        super(startingPos, WIDTH, HEIGHT,2, 4, EAST, null, "anna", true, 12);
         move_east = false;
         move_west = false;
         can_move_east = true;
@@ -38,8 +38,6 @@ public class Anna extends Entity implements KeyListener {
 
     @Override
     public void move() {
-        jumpOrFall();
-
         if(isCollisionLeft()){
             can_move_west = false;
         } else {
@@ -52,7 +50,10 @@ public class Anna extends Entity implements KeyListener {
             can_move_east = true;
         }
 
-        super.move();
+        if(move_east || move_west){
+            moveX();
+        }
+        moveY();
     }
 
     @Override
@@ -81,8 +82,7 @@ public class Anna extends Entity implements KeyListener {
                 changeDirection();
             }
 
-            moveVx(WEST);
-
+            updateVx(WEST);
             move_west = true;
         }
 
@@ -91,7 +91,7 @@ public class Anna extends Entity implements KeyListener {
                 changeDirection();
             }
 
-            moveVx(EAST);
+            updateVx(EAST);
             move_east = true;
         }
 

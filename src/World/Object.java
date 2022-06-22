@@ -10,14 +10,13 @@ public class Object implements Drawable {
     private int WIDTH, HEIGHT;
     private BufferedImage img;
 
-    private boolean collidable, collision, collision_up, collision_down, collision_left, collision_right;
+    private boolean collidable, collision_up, collision_down, collision_left, collision_right;
 
     public Object(Point pos, int WIDTH, int HEIGHT, BufferedImage img){
         this.pos = pos;
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
         this.img = img;
-        collision = false;
         collision_up = false;
         collision_down = false;
         collision_left = false;
@@ -35,7 +34,11 @@ public class Object implements Drawable {
         }
     }
 
-    public void collisionDetection(Object other){
+    public void interact(){
+        // Do something
+    }
+
+    public boolean collisionDetection(Object other){
         if(other != this) {
             int o_x = other.getPos().x;
             int o_y = other.getPos().y;
@@ -49,28 +52,24 @@ public class Object implements Drawable {
             int left_edge = pos.x;
             int right_edge = pos.x + WIDTH;
 
-            other.collision = false;
-
             // Vertical Collisions
             if (o_right_edge >= left_edge && o_left_edge <= right_edge) {
                 // Collision Up
                 if (o_bottom_edge >= top_edge && o_bottom_edge <= top_edge + HEIGHT / 2) {
                     if(other.isCollidable()) {
                         collision_up = true;
-                        collision = true;
                         pos.y = o_bottom_edge;
                     }
-                    other.collision = true;
+                    return true;
                 }
 
                 //Collision Down
                 if (o_top_edge <= bottom_edge && o_top_edge >= top_edge + HEIGHT / 2) {
                     if(other.isCollidable()) {
                         collision_down = true;
-                        collision = true;
                         pos.y = o_top_edge - HEIGHT;
                     }
-                    other.collision = true;
+                    return true;
                 }
             }
 
@@ -80,27 +79,26 @@ public class Object implements Drawable {
                 if (o_right_edge >= left_edge && o_right_edge <= left_edge + WIDTH / 2) {
                     if(other.isCollidable()) {
                         collision_left = true;
-                        collision = true;
                         pos.x = o_right_edge;
                     }
-                    other.collision = true;
+                    return true;
                 }
 
                 // Collision Right
                 if (o_left_edge <= right_edge && o_left_edge >= left_edge + WIDTH / 2) {
                     if(other.isCollidable()) {
                         collision_right = true;
-                        collision = true;
                         pos.x = o_left_edge - WIDTH;
                     }
-                    other.collision = true;
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     public void resetCollisions(){
-        collision = false;
         collision_up = false;
         collision_down = false;
         collision_left = false;
@@ -131,10 +129,6 @@ public class Object implements Drawable {
         return HEIGHT;
     }
 
-    public boolean isCollision() {
-        return collision;
-    }
-
     public boolean isCollisionUp() {
         return collision_up;
     }
@@ -151,19 +145,11 @@ public class Object implements Drawable {
         return collision_right;
     }
 
-    public BufferedImage getImg(){
-        return img;
-    }
-
     public void setCollidable(boolean collidable){
         this.collidable = collidable;
     }
 
     public boolean isCollidable(){
         return collidable;
-    }
-
-    public void setCollision(boolean collision){
-        this.collision = collision;
     }
 }

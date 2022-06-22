@@ -16,15 +16,14 @@ public class Boba extends Object {
 
     @Override
     public void draw(Graphics2D g2){
-        interact();
-
         if(!used) {
             super.draw(g2);
         }
     }
 
+    @Override
     public void interact() {
-        if(isCollision() && !used){
+        if(!used){
             used = true;
             Anna.addHealth(20);
         }

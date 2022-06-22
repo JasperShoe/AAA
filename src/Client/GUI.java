@@ -17,7 +17,7 @@ public class GUI implements Drawable {
     public void draw(Graphics2D g2) {
         g2.setColor(Color.RED);
         g2.fillRect(healthBarPos.x, healthBarPos.y, healthbarWidth, healthBarHeight);
-        g2.setColor(Color.GREEN);
+        g2.setColor(new Color(80, 175, 112));
         g2.fillRect(healthBarPos.x, healthBarPos.y, (int) (healthbarWidth * (1.0 * Anna.health / Anna.startingHealth)), healthBarHeight);
     }
 }

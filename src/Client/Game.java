@@ -1,11 +1,10 @@
 package Client;
 
-import Entities.Anna;
-import Entities.Drawable;
-import Entities.Indigo;
+import Entities.*;
 import World.Level;
 import World.Levels;
 import World.Object;
+import World.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class Game extends JPanel {
         drawables = new Drawable[4];
 
         levels = new Levels();
-        current_level_index = 4;
+        current_level_index = 0;
         reloadLevel();
 
         anna = new Anna(current_level.getStartingPos());
@@ -56,19 +55,37 @@ public class Game extends JPanel {
 
         g2.drawImage(Images.list.get("sky"), null, 0, 0);
 
-        anna.resetCollisions();
+        if(current_level_index == 0){
+            g2.drawImage(Images.list.get("title"), null,140, 150);
+        }
+
+            anna.resetCollisions();
         indigo.resetCollisions();
-        for(Object o : current_level.getTiles()){
-            anna.collisionDetection(o);
-            indigo.collisionDetection(o);
+        for(Tile t : current_level.getTiles()){
+            anna.collisionDetection(t);
+            indigo.collisionDetection(t);
         }
 
         for(Object i : current_level.getInteractables()){
-            anna.collisionDetection(i);
+            if(anna.collisionDetection(i)){
+                if(i instanceof Boba){
+                    i.interact();
+                }
+            }
         }
 
-        for(Object e : current_level.getEntities()){
-            anna.collisionDetection(e);
+        for(Object e : current_level.getEntities()) {
+            e.resetCollisions();
+
+            if(anna.collisionDetection(e)) {
+                if (e instanceof Gorilla) {
+                    e.interact();
+                }
+            }
+
+            for (Tile t : current_level.getTiles()) {
+                e.collisionDetection(t);
+            }
         }
 
         for(Drawable d : drawables){

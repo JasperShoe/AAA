@@ -16,10 +16,10 @@ public class Entity extends Object {
     private boolean falling;
     private int falling_speed, max_falling_speed;
     private int jump_speed, jump_speed_max;
-    private boolean jumping;
+    private boolean jumping, gravity;
     private String img_name;
 
-    public Entity(Point pos, int WIDTH, int HEIGHT, int start_speed, int max_speed, int dir, BufferedImage img, String img_name){
+    public Entity(Point pos, int WIDTH, int HEIGHT, int start_speed, int max_speed, int dir, BufferedImage img, String img_name, boolean gravity, int jump_speed_max){
         super(pos, WIDTH, HEIGHT, img);
         this.start_speed = start_speed;
         this.max_speed = max_speed;
@@ -31,9 +31,10 @@ public class Entity extends Object {
         falling_speed = 0;
         max_falling_speed = 4;
         jumping = false;
-        jump_speed_max = 12;
+        this.jump_speed_max = jump_speed_max;
         jump_speed = jump_speed_max;
         this.img_name = img_name;
+        this.gravity = gravity;
     }
 
     public void jump(){
@@ -71,12 +72,20 @@ public class Entity extends Object {
     }
 
     public void move(){
-        setPos(new Point(getPos().x + vx, getPos().y + vy));
+        moveX();
+        moveY();
     }
 
-    public void moveVx(int dir){
-        increaseSpeed();
+    public void moveX(){
         setVx(dir * getSpeed());
+        setX(getPos().x + vx);
+    }
+
+    public void moveY(){
+        if(gravity){
+            jumpOrFall();
+        }
+        setY(getPos().y + vy);
     }
 
     @Override
@@ -106,6 +115,11 @@ public class Entity extends Object {
 
     public void resetSpeed(){
         speed = start_speed;
+    }
+
+    public void updateVx(int dir){
+        setDir(dir);
+        increaseSpeed();
     }
 
     public void setVx(int vx) {
@@ -170,5 +184,13 @@ public class Entity extends Object {
         setDir(EAST);
         resetSpeed();
         resetJump();
+    }
+
+    public void setGravity(boolean gravity){
+        this.gravity = gravity;
+    }
+
+    public boolean isGravity(){
+        return gravity;
     }
 }
