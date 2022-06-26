@@ -7,7 +7,9 @@ import java.awt.image.BufferedImage;
 
 public class Object implements Drawable {
     private Point pos;
-    private int WIDTH, HEIGHT;
+    private int WIDTH;
+    private int HEIGHT;
+
     private BufferedImage img;
 
     private boolean collidable, collision_up, collision_down, collision_left, collision_right;
@@ -151,5 +153,17 @@ public class Object implements Drawable {
 
     public boolean isCollidable(){
         return collidable;
+    }
+
+    public void setImg(BufferedImage img) {
+        this.img = img;
+    }
+
+    public void setWIDTH(int WIDTH) {
+        this.WIDTH = WIDTH;
+    }
+
+    public void setHEIGHT(int HEIGHT) {
+        this.HEIGHT = HEIGHT;
     }
 }

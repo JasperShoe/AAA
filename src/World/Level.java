@@ -12,6 +12,7 @@ public class Level implements Drawable {
     private ArrayList<Tile> tiles;
     private ArrayList<Object> interactables;
     private ArrayList<Entity> entities;
+    private ArrayList<Object> environment;
 
     private Point startingPos, endingPos;
     private Point indigoStartingPos;
@@ -20,6 +21,7 @@ public class Level implements Drawable {
         tiles = new ArrayList();
         interactables = new ArrayList<>();
         entities = new ArrayList<>();
+        environment = new ArrayList<>();
 
         for(int i = 0; i < tileTypes.length; i++){
             for(int j = 0; j < tileTypes[i].length; j++){
@@ -31,6 +33,9 @@ public class Level implements Drawable {
                             break;
                         case 4:
                             entities.add(new Gorilla(position));
+                            break;
+                        case 5:
+                            environment.add(new Tree(position));
                             break;
                         default:
                             tiles.add(new Tile(position, TileTypes.types.get(tileTypes[i][j])));
@@ -48,6 +53,10 @@ public class Level implements Drawable {
     public void draw(Graphics2D g2) {
         for (Tile t : tiles){
             t.draw(g2);
+        }
+
+        for(Object e : environment){
+            e.draw(g2);
         }
 
         for(Object i : interactables){

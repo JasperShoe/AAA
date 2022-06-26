@@ -22,6 +22,10 @@ public class Images {
                 "boba",
                 "gorilla_east",
                 "gorilla_west",
+                "tree_1_left",
+                "tree_1_right",
+                "tree_2_left",
+                "tree_2_right",
         };
 
         for (String s : loader) {
