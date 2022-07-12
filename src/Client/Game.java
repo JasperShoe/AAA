@@ -26,7 +26,7 @@ public class Game extends JPanel {
         drawables = new Drawable[4];
 
         levels = new Levels();
-        current_level_index = 0;
+        current_level_index = 4;
         reloadLevel();
 
         anna = new Anna(current_level.getStartingPos());
@@ -59,7 +59,7 @@ public class Game extends JPanel {
             g2.drawImage(Images.list.get("title"), null,140, 150);
         }
 
-            anna.resetCollisions();
+        anna.resetCollisions();
         indigo.resetCollisions();
         for(Tile t : current_level.getTiles()){
             anna.collisionDetection(t);

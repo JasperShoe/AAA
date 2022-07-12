@@ -6,11 +6,15 @@ import java.awt.*;
 
 public class Gorilla extends Entity {
     public Gorilla(Point pos){
-        super(pos, 64, 64, 0, 2, WEST, null, "gorilla", true, 4);
+        super(pos, 64, 64, 0, 2, WEST, null, "gorilla", true, 10);
     }
 
     @Override
     public void move(){
+        if(isCollisionLeft() || isCollisionRight()) {
+            doJump();
+        }
+
         if(getPos().x > Main.WIDTH - getWidth()){
             setDir(WEST);
             setVx(0);

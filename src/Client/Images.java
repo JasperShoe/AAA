@@ -26,6 +26,8 @@ public class Images {
                 "tree_1_right",
                 "tree_2_left",
                 "tree_2_right",
+                "teargun_east",
+                "teargun_west",
         };
 
         for (String s : loader) {

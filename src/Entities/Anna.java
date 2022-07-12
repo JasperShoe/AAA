@@ -1,5 +1,7 @@
 package Entities;
 
+import Client.Images;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -61,6 +63,12 @@ public class Anna extends Entity implements KeyListener {
         move();
 
         super.draw(g2);
+
+        if (getDir() == EAST) {
+            g2.drawImage(Images.list.get("teargun_east"), null, getPos().x, getPos().y);
+        } else {
+            g2.drawImage(Images.list.get("teargun_west"), null, getPos().x, getPos().y);
+        }
     }
 
     public void stopMoving(){
@@ -70,6 +78,10 @@ public class Anna extends Entity implements KeyListener {
         }
     }
 
+    public void shoot(){
+
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -77,39 +89,52 @@ public class Anna extends Entity implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_A && can_move_west){
-            if(getDir() == EAST){
-                changeDirection();
-            }
+        switch(e.getKeyCode()){
+            case KeyEvent.VK_A:
+                if(can_move_west){
+                    if(getDir() == EAST){
+                        changeDirection();
+                    }
 
-            updateVx(WEST);
-            move_west = true;
-        }
+                    updateVx(WEST);
+                    move_west = true;
+                }
+                break;
+            case KeyEvent.VK_D:
+                if(can_move_east){
+                    if(getDir() == WEST){
+                        changeDirection();
+                    }
 
-        if(e.getKeyCode() == KeyEvent.VK_D && can_move_east){
-            if(getDir() == WEST){
-                changeDirection();
-            }
-
-            updateVx(EAST);
-            move_east = true;
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_W){
-            doJump();
+                    updateVx(EAST);
+                    move_east = true;
+                }
+                break;
+            case KeyEvent.VK_W:
+                doJump();
+                break;
+            case KeyEvent.VK_SPACE:
+                shoot();
+                break;
+            default:
+                break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_A){
-            move_west = false;
-            stopMoving();
-        }
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_A:
+                move_west = false;
+                stopMoving();
+                break;
+            case KeyEvent.VK_D:
+                move_east = false;
+                stopMoving();
+                break;
+            default:
+                break;
 
-        if(e.getKeyCode() == KeyEvent.VK_D){
-            move_east = false;
-            stopMoving();
         }
     }
 

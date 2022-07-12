@@ -16,7 +16,8 @@ public class Entity extends Object {
     private boolean falling;
     private int falling_speed, max_falling_speed;
     private int jump_speed, jump_speed_max;
-    private boolean jumping, gravity;
+    private boolean jumping;
+    private boolean gravity;
     private String img_name;
 
     public Entity(Point pos, int WIDTH, int HEIGHT, int start_speed, int max_speed, int dir, BufferedImage img, String img_name, boolean gravity, int jump_speed_max){
@@ -77,8 +78,10 @@ public class Entity extends Object {
     }
 
     public void moveX(){
-        setVx(dir * getSpeed());
-        setX(getPos().x + vx);
+        if(!(isCollisionRight() && dir == EAST) && !(isCollisionLeft() && dir == WEST)) {
+            setVx(dir * getSpeed());
+            setX(getPos().x + vx);
+        }
     }
 
     public void moveY(){

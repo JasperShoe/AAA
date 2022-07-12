@@ -1,6 +1,7 @@
 package World;
 
 import Entities.Drawable;
+import Entities.Gorilla;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -66,10 +67,10 @@ public class Object implements Drawable {
                 }
 
                 //Collision Down
-                if (o_top_edge <= bottom_edge && o_top_edge >= top_edge + HEIGHT / 2) {
+                if (o_top_edge < bottom_edge && o_top_edge >= top_edge + HEIGHT / 2) {
                     if(other.isCollidable()) {
                         collision_down = true;
-                        pos.y = o_top_edge - HEIGHT;
+                        pos.y = o_top_edge - HEIGHT + 1;
                     }
                     return true;
                 }
