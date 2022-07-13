@@ -28,6 +28,8 @@ public class Images {
                 "tree_2_right",
                 "teargun_east",
                 "teargun_west",
+                "tear_east",
+                "tear_west",
         };
 
         for (String s : loader) {
