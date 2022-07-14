@@ -1,6 +1,7 @@
 package Entities;
 
 import Client.Images;
+import World.Tear;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class Anna extends Entity implements KeyListener {
     private boolean move_east, move_west, can_move_east, can_move_west;
@@ -18,6 +20,8 @@ public class Anna extends Entity implements KeyListener {
 
     public static int startingHealth, health;
 
+    private ArrayList<Tear> tears;
+
     public Anna(Point startingPos){
         super(startingPos, WIDTH, HEIGHT,2, 4, EAST, null, "anna", true, 12);
         move_east = false;
@@ -27,6 +31,7 @@ public class Anna extends Entity implements KeyListener {
         startingHealth = 100;
         health = 100;
         damaged = false;
+        tears = new ArrayList<Tear>();
     }
 
     @Override
@@ -69,6 +74,10 @@ public class Anna extends Entity implements KeyListener {
         } else {
             g2.drawImage(Images.list.get("teargun_west"), null, getPos().x, getPos().y);
         }
+
+        for(Tear t : tears){
+            t.draw(g2);
+        }
     }
 
     public void stopMoving(){
@@ -79,7 +88,15 @@ public class Anna extends Entity implements KeyListener {
     }
 
     public void shoot(){
+        Point tearPos;
 
+        if(getDir() == EAST){
+            tearPos = new Point(getPos().x + getWidth(), getPos().y + 19);
+        } else {
+            tearPos = new Point(getPos().x - Tear.WIDTH, getPos().y + 19);
+        }
+
+        tears.add(new Tear(tearPos, getDir()));
     }
 
     @Override

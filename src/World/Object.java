@@ -10,9 +10,7 @@ public class Object implements Drawable {
     private Point pos;
     private int WIDTH;
     private int HEIGHT;
-
     private BufferedImage img;
-
     private boolean collidable, collision_up, collision_down, collision_left, collision_right;
 
     public Object(Point pos, int WIDTH, int HEIGHT, BufferedImage img){
@@ -154,6 +152,10 @@ public class Object implements Drawable {
 
     public boolean isCollidable(){
         return collidable;
+    }
+
+    public BufferedImage getImg() {
+        return img;
     }
 
     public void setImg(BufferedImage img) {
